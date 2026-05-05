@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>墨渊书阁 | 全宽图书商城 · 动态轮播与动效</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: #f8f6f2;
+            color: #1e1e2a;
+            line-height: 1.5;
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        .site-wrapper {
+            width: 100%;
+            background: #ffffff;
+        }
+
+        .clearfix::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+      
+        .header {
+            background: #2c3e2f;
+            padding: 12px 32px;
+            width: 100%;
+            border-bottom: 1px solid #e2dbc9;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: #f7e9cf;
+            padding: 6px 0;
+            margin-right: 0;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+       
+        .icon-group {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-right: 15px;
+        }
+
+        .icon-btn {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            color: #f7e9cf;
+            transition: all 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        
+        .icon-btn:hover {
+            transform: rotate(12deg) scale(1.05);
+            color: #f7b05e;
+        }
+
+        .search-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .mobile-search-input {
+            background: rgba(255,255,240,0.2);
+            border: 1px solid #cfd8c5;
+            border-radius: 40px;
+            padding: 6px 12px;
+            font-size: 14px;
+            width: 160px;
+            color: #f7e9cf;
+            outline: none;
+        }
+        .mobile-search-input::placeholder {
+            color: #ddd8c5;
+        }
+
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            gap: 28px;
+            align-items: center;
+        }
+
+        .nav-menu li a {
+            color: #f2e8da;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 6px 0;
+            font-size: 16px;
+            transition: 0.2s;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-menu li a:hover {
+            color: #f7b05e;
+            border-bottom-color: #f7b05e;
+        }
+
+       
+        .login-btn {
+            background: #f7b05e;
+            color: #2c3e2f;
+            padding: 6px 18px;
+            border-radius: 40px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+        }
+        .login-btn:hover {
+            background: linear-gradient(135deg, #ffd89b, #f7b05e);
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            color: #1e2a1c;
+        }
+
+        .user-welcome {
+            color: #f7e9cf;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .logout-btn {
+            background: none;
+            border: none;
+            color: #f7e9cf;
+            cursor: pointer;
+            font-size: 14px;
+            border-bottom: 1px dashed #f7b05e;
+        }
+        .logout-btn:hover {
+            color: #f7b05e;
+        }
+
+       
+        .carousel-section {
+            width: 100%;
+            background: #2c2a24;
+            margin-top: 0;
+            padding: 20px 32px 24px;
+        }
+        .carousel-title {
+            color: #ecd9b4;
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 16px;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .carousel-title span {
+            background: #c49a6c;
+            padding: 2px 12px;
+            border-radius: 60px;
+            font-size: 14px;
+        }
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            height: 380px;
+            overflow: hidden;
+            border-radius: 28px;
+            box-shadow: 0 20px 28px -12px rgba(0,0,0,0.3);
+            background: #3a332a;
+        }
+       
+        .carousel-track {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            animation: verticalSlideUp 15s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+        }
+        .carousel-slide {
+            flex: 0 0 380px;
+            width: 100%;
+            background-size: cover;
+            background-position: center 30%;
+            background-repeat: no-repeat;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-start;
+            border-radius: 28px;
+            transition: all 0.2s;
+        }
+      
+        .slide-1 { background-image: linear-gradient(0deg, rgba(0,0,0,0.5), rgba(0,0,0,0.2)), url('img/茶人三部曲.jpg'); background-size: cover; }
+        .slide-2 { background-image: linear-gradient(0deg, rgba(0,0,0,0.5), rgba(0,0,0,0.2)), url('img/森林巡礼.jpg'); background-size: cover; }
+        .slide-3 { background-image: linear-gradient(0deg, rgba(0,0,0,0.5), rgba(0,0,0,0.2)), url('img/森林巡礼.jpg'); background-size: cover; }
+
+        .slide-caption {
+            padding: 28px 32px;
+            color: white;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+            width: 100%;
+            background: linear-gradient(0deg, rgba(0,0,0,0.65), transparent);
+            border-radius: 0 0 28px 28px;
+        }
+        .slide-caption h2 {
+            font-size: 28px;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+        .slide-caption p {
+            font-size: 16px;
+            font-weight: 500;
+            opacity: 0.9;
+        }
+
+      
+        @keyframes verticalSlideUp {
+            0% { transform: translateY(0); }
+            12% { transform: translateY(0); }        
+            25% { transform: translateY(-380px); }   
+            37% { transform: translateY(-380px); }   
+            50% { transform: translateY(-760px); }  
+            62% { transform: translateY(-760px); }    
+            75% { transform: translateY(-1140px); }  
+            87% { transform: translateY(-1140px); }
+            100% { transform: translateY(0); }     
+        }
+      
+        .carousel-track {
+            animation: verticalSlideUp 20s ease-in-out infinite;
+        }
+        .carousel-slide {
+            flex: 0 0 380px;
+        }
+        
+        .carousel-track .slide-tea {
+            background-image: linear-gradient(0deg, rgba(0,0,0,0.5), rgba(0,0,0,0.2)), url('img/茶人三部曲.jpg');
+            background-size: cover;
+        }
+        .carousel-track .slide-special {
+            background-image: linear-gradient(0deg, rgba(0,0,0,0.5), rgba(0,0,0,0.2)), url('img/深海回响.jpg');
+        }
+        .carousel-track .slide-classic {
+            background-image: linear-gradient(0deg, rgba(0,0,0,0.5), rgba(0,0,0,0.2)), url('img/森林巡礼.jpg');
+        }
+        .carousel-track .slide-master {
+            background-image: linear-gradient(0deg, rgba(0,0,0,0.5), rgba(0,0,0,0.2)), url('https://picsum.photos/id/164/1200/400');
+        }
+
+        
+        .carousel-container, .carousel-slide {
+            height: 380px;
+        }
+
+        
+        .slide-caption .badge {
+            background: #f7b05e;
+            color: #2c3e2f;
+            padding: 4px 12px;
+            border-radius: 40px;
+            font-size: 12px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+      
+        .main-container {
+            width: 100%;
+            padding: 28px 32px 20px 32px;
+            background: #ffffff;
+        }
+
+        .left-nav {
+            float: left;
+            width: 24%;
+            background: #fefcf8;
+            border-radius: 20px;
+            padding: 20px 18px;
+            margin-right: 2%;
+            border: 1px solid #eee6db;
+        }
+
+        .left-nav h3 {
+            background: #f1e9dd;
+            padding: 12px 16px;
+            border-radius: 40px;
+            font-size: 18px;
+            margin-bottom: 22px;
+            text-align: center;
+        }
+        .category-list {
+            list-style: none;
+        }
+        .category-list li {
+            padding: 10px 14px;
+            margin: 6px 0;
+            background: #ffffff;
+            border-radius: 30px;
+            border: 1px solid #f0e5d8;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .category-list li:hover {
+            background: #e9dfcf;
+            transform: translateX(4px);
+        }
+
+        .main-content {
+            float: left;
+            width: 48%;
+            margin-right: 2%;
+            background: #ffffff;
+            border-radius: 20px;
+        }
+
+        .book-showcase h4, .hot-title, .new-title {
+            font-size: 20px;
+            font-weight: 600;
+            border-left: 5px solid #c49a6c;
+            padding-left: 14px;
+            margin: 0 0 18px 0;
+            color: #2c3e2f;
+        }
+
+        .book-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 28px;
+        }
+
+        .book-card {
+            flex: 1 1 calc(33% - 14px);
+            background: #fefaf5;
+            border-radius: 20px;
+            padding: 14px 12px 16px;
+            text-align: center;
+            border: 1px solid #efe3d4;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+       
+        .book-card img {
+            width: 100%;
+            height: 170px;
+            object-fit: cover;
+            border-radius: 16px;
+            background: #e7dfcf;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            transition: all 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            display: block;
+        }
+
+        .book-card img:hover {
+            transform: translateX(8px) scale(1.06);
+            box-shadow: 0 18px 28px -6px rgba(0, 0, 0, 0.35);
+            filter: brightness(1.02) contrast(1.02);
+        }
+
+        .book-title {
+            font-weight: 700;
+            margin: 8px 0 4px;
+            font-size: 15px;
+        }
+        .book-price {
+            color: #b45f2b;
+            font-weight: 600;
+        }
+
+        .hot-books {
+            margin: 30px 0 32px;
+            background: #fefcf8;
+            padding: 16px 14px;
+            border-radius: 24px;
+        }
+        .hot-list {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .hot-list li {
+            flex: 1 0 auto;
+            width: auto;
+            background: #ffffff;
+            border-radius: 40px;
+            padding: 8px 16px;
+            border: 1px solid #e9ddce;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+        .hot-list li:hover { background: #f1e7da; transform: scale(1.02); }
+
+        .new-books-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fefaf5;
+            border-radius: 20px;
+        }
+        .new-books-table th, .new-books-table td {
+            border: 1px solid #e9decb;
+            padding: 12px 10px;
+            font-size: 14px;
+        }
+        .new-books-table th {
+            background-color: #f1e9dd;
+        }
+
+        .right-sidebar {
+            float: left;
+            width: 24%;
+            background: #fefcf8;
+            border-radius: 20px;
+            padding: 20px 18px;
+            border: 1px solid #eee6db;
+        }
+        .promo-box {
+            background: #f7efe3;
+            border-radius: 20px;
+            padding: 18px 12px;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .coupon {
+            background: #2c3e2f;
+            color: #fbe8c2;
+            padding: 8px 12px;
+            border-radius: 40px;
+            margin-top: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .coupon:hover { background: #f7b05e; color: #2c3e2f; transform: scale(0.98); }
+
+        .editor-pick, .discount-block {
+            margin-bottom: 24px;
+            background: #fef5ea;
+            border-radius: 24px;
+            padding: 16px 14px;
+        }
+        .pick-item, .discount-item {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            background: #ffffff;
+            padding: 10px 12px;
+            border-radius: 28px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .pick-item:hover, .discount-item:hover { background: #f7ede1; transform: translateX(3px); }
+        .discount-badge {
+            background: #e65c1e;
+            color: white;
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 30px;
+        }
+
+        .extra-hover {
+            background: #f3ecdf;
+            border-radius: 40px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+        }
+        .hidden-tip {
+            position: absolute;
+            background: #2c3e2f;
+            color: #ffe2b3;
+            bottom: 110%;
+            left: 20%;
+            padding: 6px 12px;
+            border-radius: 40px;
+            font-size: 12px;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.2s;
+        }
+        .extra-hover:hover .hidden-tip { opacity: 1; visibility: visible; }
+
+        .fixed-promo {
+            position: fixed;
+            bottom: 30px;
+            right: 28px;
+            width: 260px;
+            background: #2c3e2f;
+            color: #fef0df;
+            padding: 15px;
+            border-radius: 28px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            z-index: 1000;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .fixed-promo:hover {
+            background: #f7b05e;
+            color: #2c3e2f;
+            transform: scale(1.02);
+        }
+        footer {
+            clear: both;
+            text-align: center;
+            padding: 18px;
+            background: #f3efe8;
+            font-size: 13px;
+        }
+
+      
+        .modal-mask {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(3px);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-container {
+            width: 90%;
+            max-width: 460px;
+            background: white;
+            border-radius: 32px;
+            overflow: hidden;
+            animation: fadeScale 0.2s ease;
+        }
+        @keyframes fadeScale {
+            from { opacity: 0; transform: scale(0.96);}
+            to { opacity: 1; transform: scale(1);}
+        }
+        .modal-header {
+            background: #2c3e2f;
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            color: #f7e9cf;
+        }
+        .close-modal { font-size: 28px; cursor: pointer; }
+        .tab-buttons {
+            display: flex;
+            border-bottom: 1px solid #eee6db;
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 14px;
+            text-align: center;
+            font-weight: 600;
+            cursor: pointer;
+            background: #fefcf8;
+            border: none;
+        }
+        .tab-btn.active {
+            color: #2c3e2f;
+            border-bottom: 3px solid #c49a6c;
+        }
+        .form-panel { padding: 24px 28px 28px; }
+        .form-group { margin-bottom: 18px; }
+        .form-group input {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 40px;
+            border: 1px solid #e2d5c4;
+            background: #fefaf5;
+        }
+        .form-action-btn {
+            background: #2c3e2f;
+            color: white;
+            width: 100%;
+            padding: 12px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .form-action-btn:hover {
+            background: #f7b05e;
+            color: #2c3e2f;
+            transform: scale(1.02);
+        }
+        .switch-tip { text-align: center; margin-top: 16px; font-size: 13px; }
+        .switch-tip span { color: #c49a6c; cursor: pointer; text-decoration: underline; }
+
+        @media (max-width: 1000px) {
+            .left-nav, .main-content, .right-sidebar { width: 100%; float: none; margin: 0 0 20px; }
+            .header { flex-direction: column; gap: 12px; align-items: stretch; }
+            .nav-right { justify-content: space-between; flex-wrap: wrap; }
+            .carousel-container, .carousel-slide { height: 280px; }
+            .carousel-track { animation: verticalSlideUp 18s ease-in-out infinite; }
+            .carousel-slide { flex: 0 0 280px; }
+            @keyframes verticalSlideUp {
+                0% { transform: translateY(0); }
+                12% { transform: translateY(0); }
+                25% { transform: translateY(-280px); }
+                37% { transform: translateY(-280px); }
+                50% { transform: translateY(-560px); }
+                62% { transform: translateY(-560px); }
+                75% { transform: translateY(-840px); }
+                100% { transform: translateY(0); }
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="site-wrapper">
+    <div class="header">
+        <div class="logo">📚 墨渊书阁</div>
+        <div class="nav-right">
+            <div class="icon-group">
+                <button class="icon-btn" id="searchIconBtn" aria-label="搜索">🔍</button>
+                <button class="icon-btn" id="cartIconBtn" aria-label="购物车">🛒</button>
+                <div class="search-wrapper">
+                    <input type="text" class="mobile-search-input" placeholder="搜好书...">
+                </div>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#">首页</a></li>
+                <li><a href="#">书库</a></li>
+                <li><a href="#" id="myShelfLink">我的书架</a></li>
+                <li id="authNavItem"><a id="loginRegisterBtn" href="javascript:void(0)" class="login-btn">登录 / 注册</a></li>
+            </ul>
+        </div>
+    </div>
+
+   
+    <div class="carousel-section">
+        <div class="carousel-title">📖 典藏推荐 · 轮播悦赏 <span>从下向上滑动</span></div>
+        <div class="carousel-container">
+            <div class="carousel-track">
+               
+                <div class="carousel-slide slide-tea">
+                    <div class="slide-caption">
+                        <div class="badge">🏆 茅盾文学奖</div>
+                        <h2>《茶人三部曲》</h2>
+                        <p>王旭烽 · 江南茶业百年史诗，一部融汇茶香与家国的恢宏画卷</p>
+                    </div>
+                </div>
+                <div class="carousel-slide slide-special">
+                    <div class="slide-caption">
+                        <h2>《深海回响》</h2>
+                        <p>悬疑深海探险，2025年度现象级小说</p>
+                    </div>
+                </div>
+                <div class="carousel-slide slide-classic">
+                    <div class="slide-caption">
+                        <h2>《森林巡礼》</h2>
+                        <p>自然文学的瑰宝，探寻原始森林与人性之光</p>
+                    </div>
+                </div>
+                <div class="carousel-slide slide-master">
+                    <div class="slide-caption">
+                        <h2>《AI觉醒年代》</h2>
+                        <p>科幻与现实交织，未来已来</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-container clearfix">
+        <aside class="left-nav"><h3>📖 图书分类</h3><ul class="category-list"><li>📘 文学小说</li><li>📈 经管励志</li><li>🎨 艺术设计</li><li>🔬 科普百科</li><li>🧸 少儿绘本</li><li>📜 历史传记</li><li>🧠 哲学思想</li><li>🌸 生活美学</li></ul></aside>
+        <div class="main-content">
+            <div class="book-showcase"><h4>📚 精选好书</h4><div class="book-grid">
+                <div class="book-card"><img src="img/深海回响.jpg" alt="深海回响"><div class="book-title">深海回响</div><div class="book-price">¥49.8</div></div>
+                <div class="book-card"><img src="img/森林巡礼.jpg" alt="森林巡礼"><div class="book-title">森林巡礼</div><div class="book-price">¥58.0</div></div>
+                <div class="book-card"><img src="img/al觉醒年代.jpg" alt="AI觉醒年代"><div class="book-title">AI觉醒年代</div><div class="book-price">¥68.5</div></div>
+                
+            </div></div>
+            <div class="hot-books"><div class="hot-title">🔥 热门推荐</div><ul class="hot-list"><li>《百年孤独》<span>9.8分</span></li><li>《三体全集》<span>9.6分</span></li><li>《置身事内》<span>9.4分</span></li><li>《长安的荔枝》<span>9.7分</span></li><li>《始于极限》<span>9.5分</span></li></ul></div>
+            <div><div class="new-title">✨ 新书上市</div><table class="new-books-table"><thead><tr><th>书名</th><th>作者</th><th>定价</th></tr></thead><tbody><tr><td>《意识的河流》</td><td>奥利弗·萨克斯</td><td>¥78</td></tr><tr><td>《数字星尘》</td><td>陈楸帆</td><td>¥62</td></tr></tbody></table></div>
+        </div>
+        <aside class="right-sidebar">
+            <div class="promo-box"><h4>🎁 春日悦读季</h4><p>满200减30</p><div class="coupon">🎟️ 领取20元券</div></div>
+            <div class="editor-pick"><h4>编辑甄选 · 本周必读</h4><div class="pick-item"><img class="pick-cover" src="https://picsum.photos/id/100/100/100" style="width:48px;height:48px;border-radius:14px;"><div><div class="pick-title">《燕食记》</div><div class="pick-desc">葛亮 · 岭南饮食风雅</div></div></div></div>
+            <div class="discount-block"><h4>⚡ 限时折扣</h4><div class="discount-item"><span class="discount-badge">5折</span><img src="https://picsum.photos/id/42/100/100" style="width:48px;height:48px;border-radius:12px;"><div><div class="discount-title">《克拉克森的农场》</div><div class="discount-price">¥29.9 <span class="old-price">¥68</span></div></div></div></div>
+            <div class="extra-hover"><span>⏰ 限时闪购提醒</span><div class="hidden-tip">每晚20点爆款5折</div></div>
+        </aside>
+    </div>
+    <footer>© 2026 墨渊书阁 | 全宽简约 · 轮转动效与悬停交互</footer>
+</div>
+<div class="fixed-promo"><h5>🎉 固定福利窗</h5><p>🔥 今日下单抽免单</p><p>📦 满99包邮</p></div>
+
+<div id="authModal" class="modal-mask"><div class="modal-container"><div class="modal-header"><h3>📖 读者驿站</h3><span class="close-modal">&times;</span></div><div class="tab-buttons"><button class="tab-btn active" data-tab="login">登录</button><button class="tab-btn" data-tab="register">注册</button></div><div id="loginPanel" class="form-panel"><div class="form-group"><label>用户名</label><input id="loginUsername" placeholder="用户名"></div><div class="form-group"><label>密码</label><input type="password" id="loginPassword" placeholder="密码"></div><button id="doLoginBtn" class="form-action-btn">登录</button><div id="loginMessage" class="form-message"></div><div class="switch-tip">没有账号？<span id="switchToRegister">立即注册</span></div></div><div id="registerPanel" class="form-panel" style="display:none"><div class="form-group"><label>用户名</label><input id="regUsername"></div><div class="form-group"><label>密码</label><input type="password" id="regPassword"></div><div class="form-group"><label>确认密码</label><input type="password" id="regConfirmPwd"></div><button id="doRegisterBtn" class="form-action-btn">注册并登录</button><div id="registerMessage"></div><div class="switch-tip">已有账号？<span id="switchToLogin">去登录</span></div></div></div></div>
+
+<script>
+    let currentUser = null;
+    function getUsers() { return JSON.parse(localStorage.getItem("bookstore_users")) || []; }
+    function saveUsers(users) { localStorage.setItem("bookstore_users", JSON.stringify(users)); }
+    function initUsers() { if(!localStorage.getItem("bookstore_users")) saveUsers([{username:"reader",password:"123456"},{username:"墨渊书友",password:"book2026"}]); }
+    initUsers();
+    function registerUser(u,p){ let users=getUsers(); if(users.find(x=>x.username===u)) return {success:false,msg:"用户名已存在"}; if(u.length<3) return {success:false,msg:"至少3位"}; if(p.length<4) return {success:false,msg:"密码最少4位"}; users.push({username:u,password:p}); saveUsers(users); return {success:true}; }
+    function loginUser(u,p){ let user=getUsers().find(x=>x.username===u && x.password===p); return user?{success:true,username:u}:{success:false,msg:"用户名或密码错误"}; }
+    function updateAuthUI(){
+        const authNav = document.getElementById("authNavItem");
+        if(currentUser){
+            authNav.innerHTML = `<div class="user-welcome">👋 欢迎, ${currentUser.username} <button id="logoutBtnNav" class="logout-btn">[退出]</button></div>`;
+            document.getElementById("logoutBtnNav")?.addEventListener("click",()=>{ currentUser=null; localStorage.removeItem("bookstore_current_user"); updateAuthUI(); alert("已退出"); });
+        } else {
+            authNav.innerHTML = `<a id="loginRegisterBtn" href="javascript:void(0)" class="login-btn">登录 / 注册</a>`;
+            document.getElementById("loginRegisterBtn")?.addEventListener("click",showModal);
+        }
+    }
+    function loadSession(){ const stored=localStorage.getItem("bookstore_current_user"); if(stored) currentUser=JSON.parse(stored); updateAuthUI(); }
+    function setSession(user){ currentUser=user; localStorage.setItem("bookstore_current_user",JSON.stringify(user)); updateAuthUI(); }
+    const modal=document.getElementById("authModal"), loginPanel=document.getElementById("loginPanel"), registerPanel=document.getElementById("registerPanel");
+    const tabBtns=document.querySelectorAll(".tab-btn"), closeModal=document.querySelector(".close-modal");
+    function showModal(){ modal.style.display="flex"; resetForms(); activeTab('login'); }
+    function hideModal(){ modal.style.display="none"; resetForms(); }
+    function resetForms(){ document.getElementById("loginUsername").value=""; document.getElementById("loginPassword").value=""; document.getElementById("regUsername").value=""; document.getElementById("regPassword").value=""; document.getElementById("regConfirmPwd").value=""; document.getElementById("loginMessage").innerText=""; document.getElementById("registerMessage").innerText=""; }
+    function activeTab(tab){ if(tab==='login'){ loginPanel.style.display="block"; registerPanel.style.display="none"; tabBtns.forEach(btn=>btn.classList.toggle("active",btn.getAttribute("data-tab")==="login")); } else { loginPanel.style.display="none"; registerPanel.style.display="block"; tabBtns.forEach(btn=>btn.classList.toggle("active",btn.getAttribute("data-tab")==="register")); } }
+    tabBtns.forEach(btn=>btn.addEventListener("click",()=>activeTab(btn.getAttribute("data-tab"))));
+    document.getElementById("switchToRegister")?.addEventListener("click",()=>activeTab('register'));
+    document.getElementById("switchToLogin")?.addEventListener("click",()=>activeTab('login'));
+    closeModal.addEventListener("click",hideModal); modal.addEventListener("click",e=>{if(e.target===modal) hideModal();});
+    document.getElementById("doLoginBtn")?.addEventListener("click",()=>{ const u=document.getElementById("loginUsername").value.trim(), pwd=document.getElementById("loginPassword").value; if(!u||!pwd){document.getElementById("loginMessage").innerText="填写完整";return;} const res=loginUser(u,pwd); if(res.success){ setSession({username:u}); document.getElementById("loginMessage").innerText="登陆成功"; setTimeout(()=>{ hideModal(); alert(`欢迎回来，${u}`);},500); } else { document.getElementById("loginMessage").innerText=res.msg; } });
+    document.getElementById("doRegisterBtn")?.addEventListener("click",()=>{ const u=document.getElementById("regUsername").value.trim(), p=document.getElementById("regPassword").value, cp=document.getElementById("regConfirmPwd").value; if(p!==cp){document.getElementById("registerMessage").innerText="密码不一致";return;} const reg=registerUser(u,p); if(reg.success){ const log=loginUser(u,p); if(log.success){ setSession({username:u}); document.getElementById("registerMessage").innerText="注册并登录成功"; setTimeout(()=>{ hideModal(); alert(`欢迎新朋友 ${u}`);},500); } else activeTab('login'); } else { document.getElementById("registerMessage").innerText=reg.msg; } });
+    document.getElementById("myShelfLink")?.addEventListener("click",(e)=>{ if(!currentUser){ e.preventDefault(); alert("请先登录"); showModal();} else alert(`📚 ${currentUser.username}，书架建设中`); });
+    loadSession();
+   
+    document.getElementById("searchIconBtn")?.addEventListener("click",()=>alert("搜索功能即将开放，敬请期待"));
+    document.getElementById("cartIconBtn")?.addEventListener("click",()=>{ if(!currentUser){ alert("请先登录查看购物车"); showModal();} else alert("🛒 购物车暂存中，精选好书可下单"); });
+</script>
+</body>
+</html>
